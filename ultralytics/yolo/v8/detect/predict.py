@@ -1,30 +1,40 @@
 # Ultralytics YOLO 🚀, GPL-3.0 license
+import sys
 
 import hydra
 import torch
 import argparse
 import time
 from pathlib import Path
+import serial
+
+
+#print("INSTALLED")
+#sys.exit()
 
 import cv2
-import torch
 import torch.backends.cudnn as cudnn
+
+
 from numpy import random
 from ultralytics.yolo.engine.predictor import BasePredictor
 from ultralytics.yolo.utils import DEFAULT_CONFIG, ROOT, ops
 from ultralytics.yolo.utils.checks import check_imgsz
 from ultralytics.yolo.utils.plotting import Annotator, colors, save_one_box
 
+
+
 import cv2
 from deep_sort_pytorch.utils.parser import get_config
 from deep_sort_pytorch.deep_sort import DeepSort
 from collections import deque
 import numpy as np
+
 palette = (2 ** 11 - 1, 2 ** 15 - 1, 2 ** 20 - 1)
 data_deque = {}
 
 deepsort = None
-
+ser = serial.Serial('/dev/ttyUSB0',9600)
 def init_tracker():
     global deepsort
     cfg_deep = get_config()
@@ -167,7 +177,6 @@ def draw_boxes(img, bbox, names,object_id, identities=None, offset=(0, 0)):
 
 
 class DetectionPredictor(BasePredictor):
-
     def get_annotator(self, img):
         return Annotator(img, line_width=self.args.line_thickness, example=str(self.model.names))
 
@@ -213,10 +222,19 @@ class DetectionPredictor(BasePredictor):
         det = preds[idx]
         all_outputs.append(det)
         if len(det) == 0:
+            self.new_item = False
             return log_string
+        if self.new_item:
+            log_string += " ignoring "
+            return log_string 
+        #---------------------------------------------
+        self.new_item = True
         for c in det[:, 5].unique():
             n = (det[:, 5] == c).sum()  # detections per class
             log_string += f"{n} {self.model.names[int(c)]}{'s' * (n > 1)}, "
+            log_string += "---" + str(det) + "---"
+            ser.write(f"{self.model.names[int(c)]}\n".encode('ascii'))
+            
         # write
         gn = torch.tensor(im0.shape)[[1, 0, 1, 0]]  # normalization gain whwh
         xywh_bboxs = []
@@ -239,7 +257,7 @@ class DetectionPredictor(BasePredictor):
             object_id = outputs[:, -1]
             
             draw_boxes(im0, bbox_xyxy, self.model.names, object_id,identities)
-
+        #print(outputs)
         return log_string
 
 

@@ -78,9 +78,9 @@ class BasePredictor:
         if self.args.save:
             (self.save_dir / 'labels' if self.args.save_txt else self.save_dir).mkdir(parents=True, exist_ok=True)
         if self.args.conf is None:
-            self.args.conf = 0.25  # default conf=0.25
+            self.args.conf = 0.5  # default conf=0.25
         self.done_setup = False
-
+        self.new_item = True
         # Usable if setup is done
         self.model = None
         self.data = self.args.data  # data_dict

@@ -1,0 +1,98 @@
+names:
+- Banana
+- Beetroot
+- Broccoli
+- Cauliflower
+- Lemon
+- Onion
+- Orange
+- Peas
+- Potato
+- Shallot
+- Strawberry
+- Sweetcorn
+- Tomato
+- apple
+- apples
+- asparagus
+- aubergine
+- bacon
+- banana
+- bananas
+- bazlama
+- beef
+- blueberries
+- bread
+- broccoli
+- butter
+- carrot
+- carrots
+- cheese
+- chicken
+- chicken_breast
+- chocolate chips
+- chocolate
+- corn
+- courgettes
+- cream cheese
+- cream
+- dates
+- eggs
+- flour
+- ginger
+- goat_cheese
+- green beans
+- green bell pepper
+- green chilies
+- green_beans
+- ground_beef
+- ham
+- heavy_cream
+- juice
+- lemon
+- lemons
+- lettuce
+- lime
+- mango
+- meat
+- milk
+- mineral water
+- mushroom
+- mushrooms
+- olive
+- olives
+- onion
+- orange
+- parsley
+- peach
+- peppers
+- potato
+- potatoes
+- red bell pepper
+- red grapes
+- red onion
+- salami
+- sauce
+- sausage
+- shrimp
+- spinach
+- spring onion
+- strawberries
+- strawberry
+- sugar
+- sweet_potato
+- tomato paste
+- tomato
+- tomatoes
+- yellow bell pepper
+- yoghurt
+nc: 87
+roboflow:
+  license: CC BY 4.0
+  project: food-yolov5-ubngd
+  url: https://universe.roboflow.com/masterchef/food-yolov5-ubngd/dataset/1
+  version: 1
+  workspace: masterchef
+test: ../test/images
+train: food-yolov5-1/train/images
+val: food-yolov5-1/valid/images
